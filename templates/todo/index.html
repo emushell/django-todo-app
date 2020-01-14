@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-5 mt-1">
+            <form method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                {% with title=form.title|add_class:'form-control form-control-sm' %}
+                    {{ title }}
+                {% endwith %}
+                <input class="btn btn-outline-primary btn-sm btn-block mt-1" type="submit" name="add" value="Add">
+            </form>
+            {% if tasks %}
+
+                {% for task in tasks %}
+                    <div class="row mt-1">
+                        <div class="col-sm-8">
+                            {% if task.done == True %}
+                                <strike>{{ task.title }}</strike>
+                            {% else %}
+                                <span>{{ task.title }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="col text-right">
+                            <button class="btn btn-outline-primary btn-sm"
+                                    onclick='window.location.href ="{% url 'update_task' task_id=task.id %}"'>Update
+                            </button>
+                            <button class="btn btn-outline-dark btn-sm"
+                                    onclick='window.location.href ="{% url 'delete_task' task_id=task.id %}"'>Delete
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
