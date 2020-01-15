@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="card bg-light">
-        <article class="card-body mx-auto" style="max-width: 400px;">
+        <article class="card-body mx-auto" style="min-width: 400px; max-width: 400px;">
             <h4 class="card-title mt-3 text-center">LOGIN</h4>
             <form method="post" action="">
                 {% csrf_token %}
@@ -12,16 +12,16 @@
                         <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                     </div>
                     <input name="username" class="form-control" placeholder="Username" type="text">
-                </div> <!-- form-group// -->
+                </div>
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                     </div>
                     <input name="password" class="form-control" placeholder="Password" type="password">
-                </div> <!-- form-group// -->
+                </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Login</button>
-                </div> <!-- form-group// -->
+                </div>
 
                 {% for message in messages %}
                     <p id="messages">{{ message }}</p>
@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-center">
                         Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
                     </div>
-                </div> <!-- form-group// -->
+                </div>
             </form>
         </article>
     </div>
