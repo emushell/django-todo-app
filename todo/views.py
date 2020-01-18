@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import Task, Profile
 from .forms import TaskForm
 
-from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -62,21 +61,15 @@ def delete_task(request, task_id):
     return render(request, 'todo/delete_task.html', context)
 
 
-DEFAULT_USER_GROUPS = ['default_user', 'delete_task', 'update_task', 'create_task']
-
-
+# signal is creating profile
 @unauthenticated_user
 def register_page(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             username = form.cleaned_data.get('username')
-
-            groups = Group.objects.filter(name__in=DEFAULT_USER_GROUPS)
-            user.groups.add(*groups)
-            Profile.objects.create(user=user, name=user.username, email=user.email)
 
             messages.success(request, "Account was created for " + username)
             return redirect('login')
