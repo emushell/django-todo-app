@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, null=False)
-    phone = models.CharField(max_length=255, null=False)
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -14,7 +15,7 @@ class Profile(models.Model):
         db_table = 'todo_user'
 
     def __str__(self):
-        return self.name
+        return self.first_name + " " + self.last_name
 
 
 class Task(models.Model):

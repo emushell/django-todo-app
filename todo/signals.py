@@ -13,7 +13,7 @@ def create_profile(sender, instance, created, **kwargs):
         print('Profile created')
         groups = Group.objects.filter(name__in=DEFAULT_USER_GROUPS)
         instance.groups.add(*groups)
-        Profile.objects.create(user=instance, name=instance.username, email=instance.email)
+        Profile.objects.create(user=instance, email=instance.email)
 
 
 @receiver(post_save, sender=User)

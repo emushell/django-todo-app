@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Task, Profile
-from .forms import TaskForm
+from .forms import TaskForm, ProfileForm
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -22,11 +22,11 @@ def index(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['create_task'])
 def create_task(request):
-    profile = Profile.objects.get(user=request.user)
+    user_profile = Profile.objects.get(user=request.user)
     form = TaskForm(request.POST)
     if form.is_valid():
         task = form.save(commit=False)
-        task.user_profile = profile
+        task.user_profile = user_profile
         task.save()
     return redirect('index')
 
@@ -59,6 +59,21 @@ def delete_task(request, task_id):
         'item': item
     }
     return render(request, 'todo/delete_task.html', context)
+
+
+@login_required(login_url='login')
+def profile(request):
+    user_profile = Profile.objects.get(user=request.user)
+    form = ProfileForm(instance=user_profile)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+    context = {
+        'form': form
+    }
+    return render(request, 'todo/profile.html', context)
 
 
 # signal is creating profile
