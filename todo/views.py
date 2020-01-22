@@ -12,7 +12,7 @@ from .decorators import unauthenticated_user, allowed_users
 # Create your views here.
 @login_required(login_url='login')
 def index(request):
-    tasks = Task.objects.filter(user_profile__user=request.user)
+    tasks = Task.objects.filter(user_profile__user=request.user).order_by('id')
     form = TaskForm()
 
     context = {'tasks': tasks, 'form': form}
@@ -38,11 +38,17 @@ def update_task(request, task_id):
     form = TaskForm(instance=task)
 
     if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
+
+        if request.POST.get('done') == 'done-update-only':
+            task.done = not task.done
+            dummy_form = {'title': task.title, 'done': task.done}
+            form = TaskForm(dummy_form, instance=task)
+        else:
+            form = TaskForm(request.POST, instance=task)
+
         if form.is_valid():
             form.save()
         return redirect('index')
-
     context = {'form': form}
     return render(request, 'todo/update_task.html', context)
 

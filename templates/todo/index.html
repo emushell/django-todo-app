@@ -12,32 +12,44 @@
                 <input class="btn btn-outline-primary btn-sm btn-block mt-1" type="submit" name="add" value="Add">
             </form>
             {% if tasks %}
-                {% for task in tasks %}
-                    <div class="card border-info mt-1">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    {% if task.done == True %}
-                                        <strike>{{ task.title }}</strike>
-                                    {% else %}
-                                        <span>{{ task.title }}</span>
-                                    {% endif %}
+                <div class="card mt-1">
+                    <ul class="list-group list-group-flush">
+                        {% for task in tasks %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <form id="form-checkbox" class="form-inline" method="post"
+                                              action="{% url 'update_task' task_id=task.id %}">
+                                            {% csrf_token %}
+                                            <input id="task{{ task.id }}" class="form-check-input" type="checkbox"
+                                                   name="done"
+                                                   value="done-update-only"
+                                                   onchange="this.form.submit()"
+                                                   {% if task.done %}checked{% endif %} />
+                                            <input id="hidden-checkbox-task{{ task.id }}" type='hidden'
+                                                   value="done-update-only" name="done">
+                                            <label class="form-check-label" for="task{{ task.id }}">
+                                                {% if task.done == True %}
+                                                    <strike> {{ task.title }}</strike>
+                                                {% else %}
+                                                    <span>{{ task.title }}</span>
+                                                {% endif %}
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <a class="btn btn-outline-primary btn-sm mr-1"
+                                       href="{% url 'update_task' task_id=task.id %}">
+                                        Edit</a>
+                                    <a class="btn btn-outline-dark btn-sm"
+                                       href="{% url 'delete_task' task_id=task.id %}">
+                                        Delete</a>
                                 </div>
-                                <div class="col text-right">
-                                    <button class="btn btn-outline-primary btn-sm"
-                                            onclick='window.location.href ="{% url 'update_task' task_id=task.id %}"'>
-                                        Edit
-                                    </button>
-                                    <button class="btn btn-outline-dark btn-sm"
-                                            onclick='window.location.href ="{% url 'delete_task' task_id=task.id %}"'>
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
         </div>
     </div>
 {% endblock %}
+
