@@ -9,11 +9,10 @@ DEFAULT_USER_GROUPS = ['default_user', 'delete_task', 'update_task', 'create_tas
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
-        print('Profile created')
         groups = Group.objects.filter(name__in=DEFAULT_USER_GROUPS)
         instance.groups.add(*groups)
         Profile.objects.create(user=instance, email=instance.email)
+        print('Profile created')
 
 
 @receiver(post_save, sender=User)

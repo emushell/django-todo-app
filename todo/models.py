@@ -9,7 +9,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=255, null=True)
     phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=False)
-    profile_pic = models.ImageField(default="default-profile-pic.png", null=True, blank=True)
+    profile_pic = models.ImageField(default="default-profile-pic.png", upload_to="media", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

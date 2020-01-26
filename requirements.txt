@@ -1,0 +1,9 @@
+boto3==1.11.9
+Django==2.2.9
+django-environ==0.4.5
+django-storages==1.8
+docutils==0.15.2
+jmespath==0.9.4
+Pillow==7.0.0
+psycopg2==2.8.4
+python-dateutil==2.8.1
