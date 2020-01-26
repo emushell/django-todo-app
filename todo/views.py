@@ -69,11 +69,12 @@ def delete_task(request, task_id):
 
 @login_required(login_url='login')
 def profile(request):
-    user_profile = Profile.objects.get(user=request.user)
+    # user_profile = Profile.objects.get(user=request.user)
+    user_profile = request.user.profile
     form = ProfileForm(instance=user_profile)
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=user_profile)
+        form = ProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
     context = {

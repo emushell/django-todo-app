@@ -4,11 +4,12 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
     phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=False)
+    profile_pic = models.ImageField(default="default-profile-pic.png", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
