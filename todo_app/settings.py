@@ -90,8 +90,19 @@ WSGI_APPLICATION = 'todo_app.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+# DATABASES = {
+#     'default': os.environ.get('DATABASE_URL'),
+# }
+
 DATABASES = {
-    'default': os.environ.get('DATABASE_URL'),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSW'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': '5432',
+    }
 }
 
 # Password validation
